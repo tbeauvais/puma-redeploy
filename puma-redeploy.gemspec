@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'Write a longer description or delete this line.'
   spec.homepage      = 'https://github.com/tbeauvais/sinatra-api-base'
   spec.license       = 'MIT'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.4.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.7.0')
 
   spec.metadata['allowed_push_host'] = "Set to 'http://mygemserver.com'"
 
@@ -29,9 +29,12 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'puma', '>= 5.0.0', '< 6'
+  spec.add_dependency 'puma', '>= 5.6.0', '< 7'
 
-  spec.add_development_dependency 'rake', '~> 12.0'
-  spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'rubocop', '~> 1.7'
+  spec.add_development_dependency 'rake', '~> 13.0.6'
+  spec.add_development_dependency 'rspec', '~> 3.12.0'
+  spec.add_development_dependency 'rubocop', '~> 1.42'
+  spec.add_development_dependency 'rubocop-rake', '~> 0.6.0'
+  spec.add_development_dependency 'rubocop-rspec', '~> 2.16'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end
