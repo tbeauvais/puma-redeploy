@@ -4,6 +4,7 @@ require 'puma/plugin'
 require 'puma/redeploy/dsl'
 
 Puma::Plugin.create do
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def start(launcher)
     in_background do
       touched_at = 0
@@ -29,4 +30,5 @@ Puma::Plugin.create do
       end
     end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end

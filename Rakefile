@@ -5,7 +5,7 @@ require 'rspec/core/rake_task'
 
 begin
   # Add rubocop task
-  require "rubocop/rake_task"
+  require 'rubocop/rake_task'
   RuboCop::RakeTask.new
 rescue LoadError
   # Ignore
