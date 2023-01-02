@@ -2,33 +2,27 @@
 
 require 'puma/plugin'
 require 'puma/redeploy/dsl'
+require 'puma/redeploy/file_handler'
+
+puts "!!!!!!!! puma plugin loaded"
 
 Puma::Plugin.create do
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def start(launcher)
     in_background do
-      touched_at = 0
-
-      if File.exist?(launcher.options[:redeploy_watch_file])
-        touched_at = File.mtime(launcher.options[:redeploy_watch_file])
-      end
+      file_handler = Puma::Redeploy::FileHandler.new(redeploy_watch_file: launcher.options[:redeploy_watch_file])
 
       loop do
         sleep launcher.options[:redeploy_watch_delay] || 30
 
-        if File.exist?(launcher.options[:redeploy_watch_file])
-          if (mtime = File.mtime(launcher.options[:redeploy_watch_file])) != touched_at
-            touched_at = mtime
-            $stdout.puts "Puma phased_restart begin #{Time.now}, file=#{launcher.options[:redeploy_watch_file]}"
-            launcher.phased_restart
-          elsif launcher.options[:redeploy_debug]
-            $stdout.puts "Watch file (#{launcher.options[:redeploy_watch_file]}) has not changed"
-          end
+        if file_handler.needs_redeploy?
+          $stdout.puts "Puma phased_restart begin #{Time.now}, file=#{launcher.options[:redeploy_watch_file]}"
+          launcher.phased_restart
         else
-          $stdout.puts "Watch file (#{launcher.options[:redeploy_watch_file]}) does not exist"
+          $stdout.puts "Watch file (#{launcher.options[:redeploy_watch_file]}) has not changed"
         end
       end
     end
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 end
