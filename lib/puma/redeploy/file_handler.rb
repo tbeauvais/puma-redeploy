@@ -7,7 +7,6 @@ module Puma
       def initialize(redeploy_watch_file:)
         @redeploy_watch_file = redeploy_watch_file
         @touched_at = touched_at
-        super
       end
 
       def needs_redeploy?

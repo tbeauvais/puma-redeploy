@@ -3,9 +3,6 @@
 module Puma
   # Allowed options for puma redeploy
   class DSL
-
-    puts "!!! loading puma dsl"
-
     def redeploy_watch_file(file_name)
       @options[:redeploy_watch_file] = file_name
     end

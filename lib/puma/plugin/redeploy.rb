@@ -4,8 +4,6 @@ require 'puma/plugin'
 require 'puma/redeploy/dsl'
 require 'puma/redeploy/file_handler'
 
-puts "!!!!!!!! puma plugin loaded"
-
 Puma::Plugin.create do
   # rubocop:disable Metrics/AbcSize
   def start(launcher)
