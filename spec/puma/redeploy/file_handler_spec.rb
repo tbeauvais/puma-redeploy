@@ -30,7 +30,9 @@ RSpec.describe Puma::Redeploy::FileHandler do
       context 'and has been modified' do
         before do
           subject
-          FileUtils.touch watch_file
+          Timecop.travel(Time.now + (60 * 60)) do
+            FileUtils.touch(watch_file, mtime: Time.now)
+          end
         end
         it 'returns true' do
           expect(subject.needs_redeploy?).to be_truthy
