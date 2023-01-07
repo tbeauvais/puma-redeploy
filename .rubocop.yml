@@ -6,5 +6,8 @@ AllCops:
   Exclude:
     - 'lib/puma-redeploy.rb'
 
+Metrics/BlockLength:
+  AllowedMethods: ['describe', 'context']
+
 Metrics/MethodLength:
   Max: 30
