@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'puma/redeploy'
+require 'puma_redeploy'
+require 'timecop'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

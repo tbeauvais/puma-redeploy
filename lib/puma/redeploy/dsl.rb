@@ -14,5 +14,9 @@ module Puma
     def redeploy_debug(enable: true)
       @options[:redeploy_debug] = enable
     end
+
+    def redeploy_logger(logger)
+      @options[:redeploy_logger] = logger
+    end
   end
 end

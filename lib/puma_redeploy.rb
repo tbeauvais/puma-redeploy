@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'puma/redeploy/version'
+Dir.glob("#{__dir__}/puma/redeploy/**/*.rb").sort.each { |file| require file }
 
 module Puma
   module Redeploy
