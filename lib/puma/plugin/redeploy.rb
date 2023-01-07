@@ -8,7 +8,7 @@ require 'logger'
 Puma::Plugin.create do
   def start(launcher)
     in_background do
-      logger = launcher.options[:redeploy_logger] || Logger.new(STDOUT)
+      logger = launcher.options[:redeploy_logger] || Logger.new($stdout)
       watch_file = launcher.options[:redeploy_watch_file]
       file_handler = Puma::Redeploy::FileHandler.new(redeploy_watch_file: watch_file, logger: logger)
 
