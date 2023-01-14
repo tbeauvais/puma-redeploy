@@ -6,8 +6,17 @@ AllCops:
   Exclude:
     - 'lib/puma-redeploy.rb'
 
+require:
+  - rubocop-rake
+  - rubocop-performance
+  - rubocop-rspec
+  - rubocop-thread_safety
+
 Metrics/BlockLength:
   AllowedMethods: ['describe', 'context']
 
 Metrics/MethodLength:
   Max: 30
+
+RSpec/NestedGroups:
+  Max: 4

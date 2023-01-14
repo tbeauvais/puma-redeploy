@@ -3,6 +3,7 @@
 require 'bundler/setup'
 require 'puma_redeploy'
 require 'timecop'
+require 'logger'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

@@ -5,37 +5,38 @@ require 'fileutils'
 require 'tempfile'
 
 RSpec.describe Puma::Redeploy::FileHandler do
-  let(:logger) { double('logger', info: nil) }
+  subject(:file_handler) { described_class.new(redeploy_watch_file: watch_file, logger: logger) }
 
-  subject { Puma::Redeploy::FileHandler.new(redeploy_watch_file: watch_file, logger: logger) }
+  let(:logger) { instance_double(Logger, info: nil) }
 
   describe '.needs_redeploy?' do
     context 'when file does not exist' do
       let(:watch_file) { 'does_not_exist' }
 
       it 'returns false' do
-        expect(subject.needs_redeploy?).to be_falsey
+        expect(file_handler).not_to be_needs_redeploy
       end
     end
 
     context 'when file exist' do
       let(:watch_file) { Tempfile.new.path }
 
-      context 'and has not been modified' do
+      context 'without modifications' do
         it 'returns false' do
-          expect(subject.needs_redeploy?).to be_falsey
+          expect(file_handler).not_to be_needs_redeploy
         end
       end
 
-      context 'and has been modified' do
+      context 'with modifications' do
         before do
-          subject
+          file_handler
           Timecop.travel(Time.now + (60 * 60)) do
             FileUtils.touch(watch_file, mtime: Time.now)
           end
         end
+
         it 'returns true' do
-          expect(subject.needs_redeploy?).to be_truthy
+          expect(file_handler).to be_needs_redeploy
         end
       end
     end
