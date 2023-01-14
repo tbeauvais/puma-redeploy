@@ -12,6 +12,8 @@ Puma::Plugin.create do
       watch_file = launcher.options[:redeploy_watch_file]
       file_handler = Puma::Redeploy::FileHandler.new(redeploy_watch_file: watch_file, logger: logger)
 
+      logger.info "options #{launcher.options}"
+      logger.info "restart_dir #{launcher.restart_dir}"
       loop do
         sleep launcher.options[:redeploy_watch_delay] || 30
 

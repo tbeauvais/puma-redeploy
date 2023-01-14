@@ -17,6 +17,10 @@ module Puma
         true
       end
 
+      def archive_file
+        File.read(redeploy_watch_file)&.strip
+      end
+
       private
 
       attr_accessor :redeploy_watch_file, :logger
