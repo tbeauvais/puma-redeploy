@@ -5,8 +5,9 @@ require 'fileutils'
 require 'tempfile'
 
 RSpec.describe Puma::Redeploy::FileHandler do
-  subject(:file_handler) { described_class.new(redeploy_watch_file: watch_file, logger: logger) }
+  subject(:file_handler) { described_class.new(watch_file: watch_file, deployer: deployer, logger: logger) }
 
+  let(:deployer) { instance_double(Puma::Redeploy::FileDeployer, deploy: nil) }
   let(:logger) { instance_double(Logger, info: nil) }
 
   describe '.needs_redeploy?' do
@@ -38,6 +39,23 @@ RSpec.describe Puma::Redeploy::FileHandler do
         it 'returns true' do
           expect(file_handler).to be_needs_redeploy
         end
+      end
+    end
+  end
+
+  describe '.archive_file' do
+    let(:archive_name) { 'archive.1.0.0.zip' }
+
+    context 'when file exist' do
+      let(:watch_file) do
+        Tempfile.new.tap do |file|
+          file.write(archive_name)
+          file.close
+        end.path
+      end
+
+      it 'returns archive name' do
+        expect(file_handler.archive_file).to eq archive_name
       end
     end
   end
