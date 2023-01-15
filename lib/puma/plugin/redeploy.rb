@@ -16,11 +16,11 @@ Puma::Plugin.create do
                                                             logger: logger)
 
       delay = launcher.options[:redeploy_watch_delay] || 30
-      monitor_loop(file_handler, delay, logger)
+      monitor_loop(file_handler, delay, launcher, logger)
     end
   end
 end
-def monitor_loop(file_handler, delay, logger)
+def monitor_loop(file_handler, delay, launcher, logger)
   loop do
     sleep delay
 
