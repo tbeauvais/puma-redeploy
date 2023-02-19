@@ -1,8 +1,18 @@
-# Puma::Redeploy
+# Puma Redeploy
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/puma/redeploy`. To experiment with that code, run `bin/console` for an interactive prompt.
+The puma-redeploy gem is a puma plugin that allows you to redeploy a new version of your Ruby application in a container without a full container deploy. 
 
-TODO: Delete this and the text above, and describe your gem
+Key Points:
+* Encourages the separation of the build process from deployment
+* Leverages Puma [phased-restart](https://github.com/puma/puma/blob/master/docs/restart.md#phased-restart) to ensure uptime deploy
+* Deploys in seconds
+
+
+![image](https://user-images.githubusercontent.com/121275/219976698-80575b17-17b7-4861-8c10-675f3f615e25.png)
+
+
+Example application can be found [here](https://github.com/tbeauvais/sinatra-api-base)
+
 
 ## Installation
 
@@ -22,13 +32,31 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Update your `config/puma.rb` config file with the following
+```
+
+# Add the puma-redeploy plugin
+plugin :redeploy
+
+# specify the redeploy watch file
+redeploy_watch_file './watch_me'
+
+# Specify the number of seconds between checking watch file. Defaults to 30.
+redeploy_watch_delay 15
+
+```
+
+The watch file must contain the path to the current archive.
+For example:
+```
+/sinatra_test/pkg/my_application_0.0.1.zip
+```
 
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run the following. **Note** - You must add any new files to git 
+To install this gem onto your local machine, run the following. **Note** - You must add any new files to git first.
 
 ```text
 bundle exec rake install
