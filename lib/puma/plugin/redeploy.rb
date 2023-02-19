@@ -12,23 +12,23 @@ Puma::Plugin.create do
     in_background do
       logger = launcher.options[:redeploy_logger] || Logger.new($stdout)
       watch_file = launcher.options[:redeploy_watch_file]
-      file_handler = Puma::Redeploy::DeployerFactory.create(target: launcher.restart_dir, watch_file: watch_file,
-                                                            logger: logger)
+      handler = Puma::Redeploy::DeployerFactory.create(target: launcher.restart_dir, watch_file: watch_file,
+                                                       logger: logger)
 
       delay = launcher.options[:redeploy_watch_delay] || 30
-      monitor_loop(file_handler, delay, launcher, logger)
+      monitor_loop(handler, delay, launcher, logger)
     end
   end
 end
-def monitor_loop(file_handler, delay, launcher, logger)
+def monitor_loop(handler, delay, launcher, logger)
   loop do
     sleep delay
 
-    next unless file_handler.needs_redeploy?
+    next unless handler.needs_redeploy?
 
-    logger.info "Puma phased_restart begin file=#{file_handler.watch_file} archive=#{file_handler.archive_file}"
+    logger.info "Puma phased_restart begin file=#{handler.watch_file} archive=#{handler.archive_file}"
 
-    file_handler.deploy(source: file_handler.archive_file)
+    handler.deploy(source: handler.archive_file)
 
     launcher.phased_restart
   end

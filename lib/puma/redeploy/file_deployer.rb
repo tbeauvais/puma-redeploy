@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'zip'
+require 'open3'
 
 module Puma
   module Redeploy
-    # Deploys file based archive
+    # Deploys zip archive
     class FileDeployer
       def initialize(target:, logger:)
         @target = target
@@ -12,21 +12,13 @@ module Puma
       end
 
       def deploy(source:)
-        `unzip -o -K #{source}`
+        Dir.chdir(@target) do
+          stdout, stderr, status = Open3.capture3("unzip -o -K #{source}")
+          @logger.info "stdout: #{stdout}"
+          @logger.info "stderr: #{stderr}"
+          @logger.info "status: #{status.exitstatus}"
+        end
       end
-
-      # def deploy(source:)
-      #   Zip::File.open(source) do |zip_file|
-      #     zip_file.restore_permissions = true
-      #     # TODO: Can we do this in one call rather than entry by entry?
-      #     zip_file.each do |entry|
-      #       @logger.info "Extracting #{entry.name}"
-      #       file_path = File.join(@target, entry.name)
-      #       #  FileUtils.chmod 0644, file_path
-      #       zip_file.extract(entry, file_path) { true } # overwrite
-      #     end
-      #   end
-      # end
     end
   end
 end
