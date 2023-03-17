@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
-require 'puma/plugin'
-require 'puma/redeploy/dsl'
-require 'puma/redeploy/file_handler'
-require 'puma/redeploy/file_deployer'
-require 'puma/redeploy/deployer_factory'
+
+require 'puma-redeploy'
+# require 'puma/plugin'
+# require 'puma/redeploy/dsl'
+# require 'puma/redeploy/file_handler'
+# require 'puma/redeploy/file_deployer'
+# require 'puma/redeploy/deployer_factory'
 require 'logger'
 
 Puma::Plugin.create do
