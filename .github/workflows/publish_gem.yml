@@ -1,4 +1,4 @@
-name: Build and publish gem to github package
+name: Build and Publish Gem
 
 on:
   workflow_dispatch:
