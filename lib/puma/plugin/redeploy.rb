@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-
 require 'puma-redeploy'
 # require 'puma/plugin'
 # require 'puma/redeploy/dsl'
