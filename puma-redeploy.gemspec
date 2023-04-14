@@ -18,8 +18,6 @@ Gem::Specification.new do |spec|
 
   spec.executables = ['load_archive']
 
-  spec.metadata['allowed_push_host'] = "Set to 'http://mygemserver.com'"
-
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/tbeauvais/puma-redeploy'
   spec.metadata['changelog_uri'] = 'https://github.com/tbeauvais/puma-redeploy/CHANGELOG.md'
