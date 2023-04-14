@@ -54,7 +54,7 @@ For example:
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bundle` to install dependencies. Then, run `rake spec` to run the tests and `rake rubocop` to check for rubocop offences. 
 
 To install this gem onto your local machine, run the following. **Note** - You must add any new files to git first.
 

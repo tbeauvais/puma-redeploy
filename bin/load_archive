@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'puma-redeploy'
+require 'logger'
+
+def deploy_archive(app_dir, watch_file, logger)
+  handler = Puma::Redeploy::DeployerFactory.create(target: app_dir, watch_file: watch_file,
+                                                   logger: logger)
+  handler.deploy(source: handler.archive_file)
+end
+
+logger = Logger.new($stdout)
+
+if ARGV.size != 2
+  logger.error 'You must specify the application directory and watch file'
+  logger.info 'load_archive <app directory> <watch file>'
+  logger.info 'e.g. load_archive /app /build/pkg/watch.me'
+end
+
+app_dir = ARGV[0]
+watch_file = ARGV[1]
+
+if File.exist?(watch_file) && Dir.exist?(app_dir)
+  deploy_archive(app_dir, watch_file, logger)
+else
+  logger.error "watch_file #{watch_file} does not exist" unless File.exist?(watch_file)
+  logger.error "app_dir #{app_dir} does not exist" unless Dir.exist?(app_dir)
+end
