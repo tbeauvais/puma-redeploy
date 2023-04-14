@@ -11,7 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build and publish gem
-        uses: jstastny/publish-gem-to-github@master
+        uses: dawidd6/action-publish-gem@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          owner: tbeauvais
+          github_token: ${{secrets.GITHUB_TOKEN}}
