@@ -2,16 +2,21 @@
 
 The puma-redeploy gem is a puma plugin that allows you to redeploy a new version of your Ruby application in a container without a full container deploy. 
 
+> **Warning**
+> This is a work in progress. The S3 handler support has not yet been implemented. I'm hoping to get to this soon.The [Example application](https://github.com/tbeauvais/puma-redeploy-test-app) currenty used the File handler. 
+
+
 Key Points:
 * Encourages the separation of the build process from deployment
 * Leverages Puma [phased-restart](https://github.com/puma/puma/blob/master/docs/restart.md#phased-restart) to ensure uptime deploy
 * Deploys in seconds
+* Plugable handlers to detect redeploy (File, S3, Artifactory, etc..)
 
 
 ![image](https://user-images.githubusercontent.com/121275/219976698-80575b17-17b7-4861-8c10-675f3f615e25.png)
 
 
-Example application can be found [here](https://github.com/tbeauvais/sinatra-api-base)
+Example application can be found [here](https://github.com/tbeauvais/puma-redeploy-test-app)
 
 
 ## Installation
