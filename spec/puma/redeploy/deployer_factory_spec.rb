@@ -13,6 +13,10 @@ RSpec.describe Puma::Redeploy::DeployerFactory do
   end
 
   context 'when watch is a s3 bucket' do
+    before do
+      allow(Aws::S3::Client).to receive(:new).and_return(instance_double(Aws::S3::Client, head_object: nil))
+    end
+
     it 'returns an s3 handler' do
       expect(described_class.create(target: '/app', watch_file: 's3://bucket/watch.me',
                                     logger:)).to be_a(Puma::Redeploy::S3Handler)

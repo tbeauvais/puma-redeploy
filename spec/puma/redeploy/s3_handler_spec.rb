@@ -13,42 +13,36 @@ RSpec.describe Puma::Redeploy::S3Handler do
   let(:bucket_name) { 'puma-test-app-archives' }
   let(:object_key) { 'watch.me' }
   let(:head_object) { instance_double(Aws::S3::Types::HeadObjectOutput, last_modified: Time.now) }
-  let(:s3_client) { instance_double(Aws::S3::Client) }
+  let(:s3_client) { instance_double(Aws::S3::Client, head_object:) }
   let(:deployer) { instance_double(Puma::Redeploy::ZipDeployer, deploy: nil) }
   let(:logger) { instance_double(Logger, info: nil) }
 
   describe '.needs_redeploy?' do
-    before do
-      allow(s3_client).to receive(:head_object).with(bucket: bucket_name, key: object_key).and_return(head_object)
+    it 'calls s3_client.head_object with the correct arguments' do
+      expect(s3_client).to receive(:head_object).with(bucket: bucket_name, key: object_key)
+      s3_handler
     end
 
     context 'when object does not exist' do
       let(:head_object) { nil }
 
       it 'returns false' do
-        s3_handler.needs_redeploy?
+        allow(s3_client).to receive(:head_object).and_return(head_object)
         expect(s3_handler).not_to be_needs_redeploy
       end
     end
 
-    context 'when file exist' do
+    context 'when object exist' do
       context 'without modifications' do
         it 'returns false' do
-          s3_handler.needs_redeploy?
           expect(s3_handler).not_to be_needs_redeploy
         end
       end
 
       context 'with modifications' do
-        before do
-          expect(head_object).to receive(:last_modified).and_return(Time.now)
-          Timecop.travel(Time.now + (60 * 60)) do
-            expect(head_object).to receive(:last_modified).and_return(Time.now)
-          end
-        end
-
         it 'returns true' do
-          s3_handler.needs_redeploy?
+          allow(head_object).to receive(:last_modified).and_return(Time.now,
+                                                                   Timecop.travel(Time.now + (60 * 60)).to_time)
           expect(s3_handler).to be_needs_redeploy
         end
       end

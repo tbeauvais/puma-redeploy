@@ -9,23 +9,11 @@ module Puma
     class S3Handler < BaseHandler
       attr_reader :bucket_name, :object_key, :s3_client
 
-      def initialize(watch_file:, deployer:, logger:, s3_client: Aws::S3::Client.new)
+      def initialize(watch_file:, deployer:, logger:, s3_client:)
         super(watch_file:, deployer:, logger:)
         @s3_client = s3_client
         @bucket_name, @object_key = s3_object_reference(watch_file)
-        @touched_at = nil
-      end
-
-      def needs_redeploy?
-        if @touched_at.nil?
-          @touched_at = touched_at
-          return false
-        end
-
-        return false unless (mtime = touched_at) != @touched_at
-
-        @touched_at = mtime
-        true
+        @touched_at = touched_at
       end
 
       def archive_file
