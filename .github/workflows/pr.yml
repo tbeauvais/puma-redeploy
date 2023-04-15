@@ -23,4 +23,6 @@ jobs:
       - name: Run rubocop
         run: bundle exec rubocop
       - name: Run tests
+        env:
+          AWS_REGION: 'us-east-1'
         run: bundle exec rake spec
