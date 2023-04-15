@@ -2,10 +2,6 @@
 
 The puma-redeploy gem is a puma plugin that allows you to redeploy a new version of your Ruby application in a container without a full container deploy. 
 
-> **Warning**
-> This is a work in progress. The S3 handler support has not yet been implemented. I'm hoping to get to this soon.The [Example application](https://github.com/tbeauvais/puma-redeploy-test-app) currenty used the File handler. 
-
-
 Key Points:
 * Encourages the separation of the build process from deployment
 * Leverages Puma [phased-restart](https://github.com/puma/puma/blob/master/docs/restart.md#phased-restart) to ensure uptime deploy
@@ -45,16 +41,23 @@ plugin :redeploy
 
 # specify the redeploy watch file
 redeploy_watch_file './watch_me'
+# For S3 this must be a S3 URL
+redeploy_watch_file 's3://puma-test-app-archives/watch.me'
 
 # Specify the number of seconds between checking watch file. Defaults to 30.
 redeploy_watch_delay 15
 
 ```
 
-The watch file must contain the path to the current archive.
-For example:
+The watch file must contain the path to the current archive. This can be a file path or S3 URL.
+For example when using a file:
 ```
-/sinatra_test/pkg/my_application_0.0.1.zip
+/sinatra_test/pkg/test_app_0.0.1.zip
+```
+
+For example when using S3:
+```
+s3://puma-test-app-archives/test_app_0.0.1.zip
 ```
 
 ## Development
