@@ -55,11 +55,13 @@ RSpec.describe Puma::Redeploy::S3Handler do
     let(:archive_object_key) { 'archive.1.0.0.zip' }
 
     before do
-      allow(s3_client).to receive(:head_object).with(bucket: bucket_name, key: object_key).and_return(head_object)
-
+      # The first call to s3_client.get_object is used to get the s3 watch file contents.
+      # The content contains the archive path
       watch_object = instance_double(Aws::S3::Types::GetObjectOutput, body: StringIO.new(archive_name))
-      expect(s3_client).to receive(:get_object).with(bucket: bucket_name, key: object_key).and_return(watch_object)
+      expect(s3_client).to receive(:get_object).and_return(watch_object)
 
+      # The second call to s3_client.get_object is used to get the s3 archive file contents.
+      # This would be the zip file but we don't care what's in it.
       archive_object = instance_double(Aws::S3::Types::GetObjectOutput, body: StringIO.new('random data'))
       expect(s3_client).to receive(:get_object).with(bucket: archive_bucket_name,
                                                      key: archive_object_key).and_return(archive_object)
