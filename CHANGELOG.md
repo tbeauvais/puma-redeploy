@@ -10,3 +10,4 @@
 **Fixes and enhancements:**
 
 - Add CHANGELOG.md
+- Refactor file handler to use new base handler class
