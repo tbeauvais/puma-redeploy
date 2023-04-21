@@ -2,8 +2,8 @@
 
 require 'rspec'
 
-RSpec.describe Puma::Redeploy::FileDeployer do
-  subject(:file_deployer) { described_class.new(target: deploy_dir, logger: logger) }
+RSpec.describe Puma::Redeploy::ZipDeployer do
+  subject(:file_deployer) { described_class.new(target: deploy_dir, logger:) }
 
   let(:deploy_dir) { Dir.mktmpdir }
   let(:archive_file) { File.expand_path('spec/support_files/app_0.0.1.zip') }

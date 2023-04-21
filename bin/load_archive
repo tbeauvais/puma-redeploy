@@ -6,8 +6,8 @@ require 'puma-redeploy'
 require 'logger'
 
 def deploy_archive(app_dir, watch_file, logger)
-  handler = Puma::Redeploy::DeployerFactory.create(target: app_dir, watch_file: watch_file,
-                                                   logger: logger)
+  handler = Puma::Redeploy::DeployerFactory.create(target: app_dir, watch_file:,
+                                                   logger:)
   handler.deploy(source: handler.archive_file)
 end
 
