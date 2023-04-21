@@ -1,7 +1,13 @@
 
 # Changelog
 
-## v0.2.1 (NEXT)
+## v0.2.x (NEXT)
+
+**Features:**
+
+**Fixes and enhancements:**
+
+## v0.2.1
 
 **Features:**
 
