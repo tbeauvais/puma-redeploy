@@ -39,10 +39,9 @@ Update your `config/puma.rb` config file with the following
 # Add the puma-redeploy plugin
 plugin :redeploy
 
-# specify the redeploy watch file
-redeploy_watch_file './watch_me'
-# For S3 this must be a S3 URL
-redeploy_watch_file 's3://puma-test-app-archives/watch.me'
+# Specify the redeploy watch file from an environment variable. This can a file system location or S3 URL. For example `/app/pkg/watch.me` or `s3://puma-test-app-archives/watch.me`.
+redeploy_watch_file ENV['WATCH_FILE']
+
 
 # Specify the number of seconds between checking watch file. Defaults to 30.
 redeploy_watch_delay 15
@@ -50,14 +49,15 @@ redeploy_watch_delay 15
 ```
 
 The watch file must contain the path to the current archive. This can be a file path or S3 URL.
+
 For example when using a file:
 ```
-/sinatra_test/pkg/test_app_0.0.1.zip
+/app/pkg/test_app_0.0.3.zip
 ```
 
 For example when using S3:
 ```
-s3://puma-test-app-archives/test_app_0.0.1.zip
+s3://puma-test-app-archives/test_app_0.0.3.zip
 ```
 
 ## Development
