@@ -5,7 +5,7 @@ require 'open3'
 module Puma
   module Redeploy
     # Deploys zip archive
-    class FileDeployer
+    class ZipDeployer
       def initialize(target:, logger:)
         @target = target
         @logger = logger

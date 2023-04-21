@@ -13,8 +13,8 @@ Puma::Plugin.create do
     in_background do
       logger = launcher.options[:redeploy_logger] || Logger.new($stdout)
       watch_file = launcher.options[:redeploy_watch_file]
-      handler = Puma::Redeploy::DeployerFactory.create(target: launcher.restart_dir, watch_file: watch_file,
-                                                       logger: logger)
+      handler = Puma::Redeploy::DeployerFactory.create(target: launcher.restart_dir, watch_file:,
+                                                       logger:)
 
       delay = launcher.options[:redeploy_watch_delay] || 30
       monitor_loop(handler, delay, launcher, logger)

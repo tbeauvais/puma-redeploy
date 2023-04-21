@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
                        'will be pulled and the app will be reloaded.'
   spec.homepage      = 'https://github.com/tbeauvais/puma-redeploy'
   spec.license       = 'MIT'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.7.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 3.1.0')
 
   spec.executables = ['load_archive']
 
@@ -29,6 +29,8 @@ Gem::Specification.new do |spec|
   end
   spec.bindir        = 'bin'
   spec.require_paths = ['lib']
+
+  spec.add_runtime_dependency 'aws-sdk-s3', '~> 1.120.0'
 
   spec.add_development_dependency 'rake', '~> 13.0.6'
   spec.add_development_dependency 'rspec', '~> 3.12.0'
