@@ -16,6 +16,7 @@ Key Points:
 
 Example application can be found [here](https://github.com/tbeauvais/puma-redeploy-test-app)
 
+Also see the [sidekiq-redeploy](https://github.com/tbeauvais/sidekiq-redeploy) gem.
 
 ## Installation
 
@@ -75,7 +76,7 @@ Usage: archive-loader [options]. Used to load the archive prior to starting the 
 
 For example this will fetch and unzip the application archive and then start puma.
 ```shell
-archive-loader /app /app/pkg/watch.me && bundle exec puma -C config/puma.rb
+archive-loader -a /app -w /app/pkg/watch.me && bundle exec puma -C config/puma.rb
 ```
 
 ## Development
