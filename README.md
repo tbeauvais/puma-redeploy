@@ -4,10 +4,12 @@ The puma-redeploy gem is a puma plugin that allows you to redeploy a new version
 
 Key Points:
 * Encourages the separation of the build process from deployment
+* Runtime container does not include application code
 * Leverages Puma [phased-restart](https://github.com/puma/puma/blob/master/docs/restart.md#phased-restart) to ensure uptime deploy
 * Deploys in seconds
-* Plugable handlers to detect redeploy (File, S3, Artifactory, etc..)
+* Pluggable handlers to detect redeploy (File, S3, Artifactory, etc..)
 
+**Note** - Currently there are File and S3 handlers for loading archives.
 
 ![image](https://user-images.githubusercontent.com/121275/219976698-80575b17-17b7-4861-8c10-675f3f615e25.png)
 
@@ -58,6 +60,22 @@ For example when using a file:
 For example when using S3:
 ```
 s3://puma-test-app-archives/test_app_0.0.3.zip
+```
+
+### Archive Loader
+The `archive-loader` is a cli used to fetch and deploy the application archive prior to starting the puma server. This is useful when the application code does not exist in the runtime container.
+
+```shell
+archive-loader
+Usage: archive-loader [options]. Used to load the archive prior to starting the puma app server.
+    -a, --app-dir=DIR                [Required] Location of application directory within the container.
+    -w, --watch=WATCH                [Required] Location of watch file (file or s3 location).
+    -h, --help                       Prints this help
+```
+
+For example this will fetch and unzip the application archive and then start puma.
+```shell
+archive-loader /app /app/pkg/watch.me && bundle exec puma -C config/puma.rb
 ```
 
 ## Development

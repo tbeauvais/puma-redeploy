@@ -1,9 +1,13 @@
-
 # Changelog
 
-## v0.2.x (NEXT)
+## v0.3.x (NEXT)
 
-**Features:**
+
+## v0.3.0
+
+**Breaking Changes:**
+- Rename load_archive to archive-loader
+- Add options flags to archive-loader
 
 **Fixes and enhancements:**
 
