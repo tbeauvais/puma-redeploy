@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'puma-redeploy'
+require 'logger'
+require 'optparse'
+
+def deploy_archive(app_dir, watch_file, logger)
+  handler = Puma::Redeploy::DeployerFactory.create(target: app_dir, watch_file:,
+                                                   logger:)
+  handler.deploy(source: handler.archive_file)
+end
+
+def option_parser(opts)
+  OptionParser.new do |o|
+    o.banner = 'Usage: archive-loader [options]. Used to load the archive prior to starting the puma app server.'
+
+    o.on '-a', '--app-dir=DIR', '[Required] Location of application directory within the container.' do |arg|
+      opts[:app_dir] = arg
+    end
+
+    o.on '-w', '--watch=WATCH', '[Required] Location of watch file (file or s3 location).' do |arg|
+      opts[:watch] = arg
+    end
+
+    o.on('-h', '--help', 'Prints this help') do
+      puts o
+      exit
+    end
+  end
+end
+
+def logger
+  Logger.new($stdout)
+end
+
+ops = {}
+parser = option_parser(ops)
+parser.parse!(ARGV)
+
+unless ops[:app_dir] && ops[:watch]
+  puts parser.help
+  exit 1
+end
+
+deploy_archive(ops[:app_dir], ops[:watch], logger)
