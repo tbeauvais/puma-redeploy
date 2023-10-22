@@ -1,6 +1,10 @@
 # Changelog
 
-## v0.3.x (NEXT)
+## v0.3.1
+
+**Fixes and enhancements:**
+
+- Allow watch file to not exist
 
 
 ## v0.3.0

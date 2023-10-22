@@ -55,6 +55,9 @@ module Puma
           logger.info "The S3 object #{bucket_name}/#{object_key} does not exist"
           0
         end
+      rescue StandardError => e
+        logger.warn "Error accessing the S3 object #{bucket_name}/#{object_key}. Error:#{e.message}"
+        0
       end
     end
   end
