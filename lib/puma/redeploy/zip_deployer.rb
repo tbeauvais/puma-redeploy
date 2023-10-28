@@ -12,6 +12,8 @@ module Puma
       end
 
       def deploy(source:)
+        return unless source
+
         Dir.chdir(@target) do
           stdout, stderr, status = Open3.capture3("unzip -o -K #{source}")
           @logger.info "stdout: #{stdout}"

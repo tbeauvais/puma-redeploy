@@ -15,7 +15,7 @@ RSpec.describe Puma::Redeploy::S3Handler do
   let(:head_object) { instance_double(Aws::S3::Types::HeadObjectOutput, last_modified: Time.now) }
   let(:s3_client) { instance_double(Aws::S3::Client, head_object:) }
   let(:deployer) { instance_double(Puma::Redeploy::ZipDeployer, deploy: nil) }
-  let(:logger) { instance_double(Logger, info: nil) }
+  let(:logger) { instance_double(Logger, info: nil, warn: nil) }
 
   describe '.needs_redeploy?' do
     it 'calls s3_client.head_object with the correct arguments' do
@@ -28,6 +28,13 @@ RSpec.describe Puma::Redeploy::S3Handler do
 
       it 'returns false' do
         allow(s3_client).to receive(:head_object).and_return(head_object)
+        expect(s3_handler).not_to be_needs_redeploy
+      end
+    end
+
+    context 'when s3 client raises' do
+      it 'returns false' do
+        allow(s3_client).to receive(:head_object).and_raise('s3 error')
         expect(s3_handler).not_to be_needs_redeploy
       end
     end
@@ -53,23 +60,36 @@ RSpec.describe Puma::Redeploy::S3Handler do
     let(:archive_name) { 's3://puma-test-app-archives/archive.1.0.0.zip' }
     let(:archive_bucket_name) { 'puma-test-app-archives' }
     let(:archive_object_key) { 'archive.1.0.0.zip' }
-
-    before do
-      # The first call to s3_client.get_object is used to get the s3 watch file contents.
-      # The content contains the archive path
-      watch_object = instance_double(Aws::S3::Types::GetObjectOutput, body: StringIO.new(archive_name))
-      expect(s3_client).to receive(:get_object).and_return(watch_object)
-
-      # The second call to s3_client.get_object is used to get the s3 archive file contents.
-      # This would be the zip file but we don't care what's in it.
-      archive_object = instance_double(Aws::S3::Types::GetObjectOutput, body: StringIO.new('random data'))
-      expect(s3_client).to receive(:get_object).with(bucket: archive_bucket_name,
-                                                     key: archive_object_key).and_return(archive_object)
+    let(:archive_object) do
+      instance_double(Aws::S3::Types::GetObjectOutput, body: StringIO.new(archive_name))
     end
 
     context 'when file exist' do
+      before do
+        # The first call to s3_client.get_object is used to get the s3 watch file contents.
+        # The content contains the archive path
+        watch_object = instance_double(Aws::S3::Types::GetObjectOutput, body: StringIO.new(archive_name))
+        expect(s3_client).to receive(:get_object).and_return(watch_object)
+
+        # The second call to s3_client.get_object is used to get the s3 archive file contents.
+        # This would be the zip file but we don't care what's in it.
+        expect(s3_client).to receive(:get_object).with(bucket: archive_bucket_name,
+                                                       key: archive_object_key).and_return(archive_object)
+      end
+
       it 'returns archive name' do
         expect(s3_handler.archive_file).to eq archive_object_key
+      end
+    end
+
+    context 'when s3 client raises' do
+      before do
+        expect(s3_client).to receive(:get_object).and_return(archive_object)
+        allow(s3_client).to receive(:get_object).and_raise('s3 error')
+      end
+
+      it 'returns nil' do
+        expect(s3_handler.archive_file).to be_nil
       end
     end
   end

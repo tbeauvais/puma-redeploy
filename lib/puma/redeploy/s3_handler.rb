@@ -18,6 +18,8 @@ module Puma
 
       def archive_file
         s3_url = read_watch_object
+        return unless s3_url
+
         archive_bucket_name, archive_object_key = s3_object_reference(s3_url)
 
         response = s3_client.get_object(bucket: archive_bucket_name, key: archive_object_key)
@@ -26,6 +28,8 @@ module Puma
         # Write the object data to a local file
         File.binwrite(file_name, response.body.read)
         file_name
+      rescue StandardError => e
+        logger.warn "Error reading fetching archive file for #{s3_url}. Error:#{e.message}"
       end
 
       private
@@ -44,6 +48,8 @@ module Puma
         object = s3_client.get_object(bucket: bucket_name, key: object_key)
 
         object.body.read.strip
+      rescue StandardError => e
+        logger.warn "Error reading url from  watch file #{bucket_name}/#{object_key}. Error:#{e.message}"
       end
 
       def touched_at

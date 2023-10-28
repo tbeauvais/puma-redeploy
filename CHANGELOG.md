@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.2
+
+**Fixes and enhancements:**
+
+- Improve s3 error handling
+
 ## v0.3.1
 
 **Fixes and enhancements:**
