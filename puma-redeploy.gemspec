@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'bin'
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'aws-sdk-s3', '~> 1.120.0'
+  spec.add_runtime_dependency 'aws-sdk-s3'
 
   spec.metadata['rubygems_mfa_required'] = 'true'
 end
