@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.3
+
+**Fixes and enhancements:**
+
+- don't require specific version of aws s3 gem
+
 ## v0.3.2
 
 **Fixes and enhancements:**
