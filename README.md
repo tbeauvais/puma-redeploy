@@ -51,17 +51,23 @@ redeploy_watch_delay 15
 
 ```
 
-The watch file must contain the path to the current archive. This can be a file path or S3 URL.
-
+The watch file can contain an optional list of commands to run and the required archive_location. The archive_location can be a file path or S3 URL
 For example when using a file:
-```
-/app/pkg/test_app_0.0.3.zip
+```yaml
+---
+commands:
+  - bundle 
+archive_location: /app/pkg/test_app_0.0.3.zip
 ```
 
 For example when using S3:
+```yaml
+---
+commands:
+  - bundle 
+archive_location: s3://puma-test-app-archives/test_app_0.0.3.zip
 ```
-s3://puma-test-app-archives/test_app_0.0.3.zip
-```
+
 
 ### Archive Loader
 The `archive-loader` is a cli used to fetch and deploy the application archive prior to starting the puma server. This is useful when the application code does not exist in the runtime container.
@@ -76,8 +82,9 @@ Usage: archive-loader [options]. Used to load the archive prior to starting the 
 
 For example this will fetch and unzip the application archive and then start puma.
 ```shell
-archive-loader -a /app -w /app/pkg/watch.me && bundle exec puma -C config/puma.rb
+archive-loader -a /app -w /app/pkg/watch.yml && bundle exec puma -C config/puma.rb
 ```
+
 
 ## Development
 

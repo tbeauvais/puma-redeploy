@@ -9,7 +9,12 @@ require 'optparse'
 def deploy_archive(app_dir, watch_file, logger)
   handler = Puma::Redeploy::DeployerFactory.create(target: app_dir, watch_file:,
                                                    logger:)
-  handler.deploy(source: handler.archive_file)
+
+  watch_file_data = handler.watch_file_data
+
+  archive_file = handler.archive_file(watch_file_data[:archive_location])
+
+  handler.deploy(source: archive_file)
 end
 
 def option_parser(opts)

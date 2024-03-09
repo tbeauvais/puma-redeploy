@@ -10,7 +10,7 @@ RSpec.describe Puma::Redeploy::FileHandler do
   let(:deployer) { instance_double(Puma::Redeploy::ZipDeployer, deploy: nil) }
   let(:logger) { instance_double(Logger, info: nil) }
 
-  describe '.needs_redeploy?' do
+  describe '#needs_redeploy?' do
     context 'when file does not exist' do
       let(:watch_file) { 'does_not_exist' }
 
@@ -43,7 +43,7 @@ RSpec.describe Puma::Redeploy::FileHandler do
     end
   end
 
-  describe '.archive_file' do
+  describe '#archive_file' do
     let(:archive_name) { 'archive.1.0.0.zip' }
 
     context 'when file exist' do
@@ -55,7 +55,7 @@ RSpec.describe Puma::Redeploy::FileHandler do
       end
 
       it 'returns archive name' do
-        expect(file_handler.archive_file).to eq archive_name
+        expect(file_handler.archive_file(archive_name)).to eq archive_name
       end
     end
   end
