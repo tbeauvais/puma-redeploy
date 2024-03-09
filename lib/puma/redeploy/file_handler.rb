@@ -11,11 +11,17 @@ module Puma
         @touched_at = touched_at
       end
 
-      def archive_file
-        File.read(watch_file).strip
+      def archive_file(archive_location)
+        archive_location
       end
 
       private
+
+      def read_watch_object
+        File.read(watch_file).strip
+      rescue StandardError => e
+        logger.warn "Error reading watch file #{watch_file}. Error:#{e.message}"
+      end
 
       def touched_at
         if File.exist?(watch_file)

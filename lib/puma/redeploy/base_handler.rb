@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'forwardable'
+require 'yaml'
 
 module Puma
   module Redeploy
@@ -23,6 +24,15 @@ module Puma
       end
 
       def_delegators :@deployer, :deploy
+
+      def watch_file_data
+        watch_file_content = read_watch_object
+        results = YAML.safe_load(watch_file_content, symbolize_names: true)
+        return results if results.is_a?(Hash)
+
+        # old style where the file contains only the archive location
+        { commands: [], archive_location: results }
+      end
 
       private
 
