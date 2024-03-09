@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.4
+
+**Features:**
+
+- Add support to run commands prior to redeploy using a yaml watch file. This is useful for running a migration or bundle gems.
+
 ## v0.3.3
 
 **Fixes and enhancements:**
