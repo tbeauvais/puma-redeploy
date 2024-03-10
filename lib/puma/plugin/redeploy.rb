@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
 require 'puma-redeploy'
-# require 'puma/plugin'
-# require 'puma/redeploy/dsl'
-# require 'puma/redeploy/file_handler'
-# require 'puma/redeploy/file_deployer'
-# require 'puma/redeploy/deployer_factory'
 require 'logger'
 
 Puma::Plugin.create do
@@ -28,14 +23,13 @@ def monitor_loop(handler, delay, launcher, logger)
     next unless handler.needs_redeploy?
 
     watch_file_data = handler.watch_file_data
-
     archive_file = handler.archive_file(watch_file_data[:archive_location])
 
     logger.info "Puma phased_restart begin file=#{handler.watch_file} archive=#{archive_file}"
 
-    Puma::Redeploy::CommandRunner.new(commands: watch_file_data[:commands], logger:).run
-
     handler.deploy(source: archive_file)
+
+    Puma::Redeploy::CommandRunner.new(commands: watch_file_data[:commands], logger:).run
 
     launcher.phased_restart
   end
