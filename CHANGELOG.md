@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.4.0
+
+**Fixes and enhancements:**
+
+- Fix the order when running commands to run after unzip archive. Also bump to 0.4.0
+
+
 ## v0.3.4
 
 **Features:**
