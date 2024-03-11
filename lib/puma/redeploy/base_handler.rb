@@ -32,6 +32,8 @@ module Puma
 
         # old style where the file contains only the archive location
         { commands: [], archive_location: results }
+      rescue StandardError
+        {}
       end
 
       private
