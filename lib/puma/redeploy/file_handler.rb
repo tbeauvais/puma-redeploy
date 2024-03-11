@@ -21,6 +21,7 @@ module Puma
         File.read(watch_file).strip
       rescue StandardError => e
         logger.warn "Error reading watch file #{watch_file}. Error:#{e.message}"
+        nil
       end
 
       def touched_at

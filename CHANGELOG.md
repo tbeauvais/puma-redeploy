@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.1
+
+**Fixes:**
+
+- Fix issue when watch file is initially missing
+
 ## v0.4.0
 
 **Fixes and enhancements:**

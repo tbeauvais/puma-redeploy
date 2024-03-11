@@ -7,7 +7,7 @@ RSpec.describe Puma::Redeploy::BaseHandler do
   subject(:handler) { Puma::Redeploy::FileHandler.new(watch_file:, deployer:, logger:) }
 
   let(:deployer) { instance_double(Puma::Redeploy::ZipDeployer, deploy: nil) }
-  let(:logger) { instance_double(Logger, info: nil) }
+  let(:logger) { instance_double(Logger, info: true, warn: true) }
 
   describe '#watch_file_data' do
     let(:archive_name) { 'archive.1.0.0.zip' }
@@ -31,6 +31,14 @@ RSpec.describe Puma::Redeploy::BaseHandler do
 
       it 'returns proper hash' do
         expect(handler.watch_file_data).to eq({ commands: [], archive_location: archive_name })
+      end
+    end
+
+    context 'when file does not exist' do
+      let(:watch_file) { 'missing.yml' }
+
+      it 'returns empty hash' do
+        expect(handler.watch_file_data).to eq({})
       end
     end
   end

@@ -49,6 +49,7 @@ module Puma
         object.body.read.strip
       rescue StandardError => e
         logger.warn "Error reading watch file #{bucket_name}/#{object_key}. Error:#{e.message}"
+        nil
       end
 
       def touched_at
