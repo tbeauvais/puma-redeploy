@@ -18,7 +18,7 @@ module Puma
           stdout, stderr, status = Open3.capture3("unzip -o -K #{source}")
           @logger.info "stdout: #{stdout}"
           @logger.info "stderr: #{stderr}"
-          @logger.info "status: #{status.exitstatus}"
+          @logger.info "status: #{status&.exitstatus}"
         end
       end
     end
