@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.2
+
+**Fixes:**
+
+- Fix issue when when unzip status is nil
+
 ## v0.4.1
 
 **Fixes:**
