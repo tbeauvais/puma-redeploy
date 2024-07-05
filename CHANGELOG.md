@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.3
+
+**Features:**
+
+- Add DSL option to specify the puma restart method type
+
 ## v0.4.2
 
 **Fixes:**

@@ -45,6 +45,8 @@ plugin :redeploy
 # Specify the redeploy watch file from an environment variable. This can a file system location or S3 URL. For example `/app/pkg/watch.me` or `s3://puma-test-app-archives/watch.me`.
 redeploy_watch_file ENV['WATCH_FILE']
 
+# Specify the Puma restart method type. This can be :phased_restart or :restart. If not specified defaults to :phased_restart
+redeploy_restart_method :restart
 
 # Specify the number of seconds between checking watch file. Defaults to 30.
 redeploy_watch_delay 15
