@@ -18,5 +18,12 @@ module Puma
     def redeploy_logger(logger)
       @options[:redeploy_logger] = logger
     end
+
+    def redeploy_restart_method(restart_method)
+      raise "Invalid Puma restart method: #{restart_method}" unless %i[phased_restart
+                                                                       restart].include?(restart_method.to_sym)
+
+      @options[:restart_method] = restart_method
+    end
   end
 end

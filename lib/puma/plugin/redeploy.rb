@@ -16,6 +16,7 @@ Puma::Plugin.create do
     end
   end
 end
+
 def monitor_loop(handler, delay, launcher, logger)
   loop do
     sleep delay
@@ -31,6 +32,7 @@ def monitor_loop(handler, delay, launcher, logger)
 
     Puma::Redeploy::CommandRunner.new(commands: watch_file_data[:commands], logger:).run
 
-    launcher.phased_restart
+    restart_method = launcher.options[:restart_method] || :phased_restart
+    launcher.send(restart_method)
   end
 end
