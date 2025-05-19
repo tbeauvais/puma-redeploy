@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.4.4
+
+**Changes:**
+- Don't log warning when watch file is not found
+
 ## v0.4.3
 
 **Features:**
