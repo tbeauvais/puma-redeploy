@@ -30,7 +30,8 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'bin'
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'aws-sdk-s3'
+  spec.add_dependency 'aws-sdk-s3'
+  spec.add_dependency 'nokogiri'
 
   spec.metadata['rubygems_mfa_required'] = 'true'
 end

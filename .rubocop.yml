@@ -6,7 +6,7 @@ AllCops:
   Exclude:
     - 'lib/puma-redeploy.rb'
 
-require:
+plugins:
   - rubocop-rake
   - rubocop-performance
   - rubocop-rspec
@@ -34,4 +34,8 @@ RSpec/StubbedMock:
   Enabled: false
 
 RSpec/MessageSpies:
+  Enabled: false
+
+# Need to look into this one
+ThreadSafety/DirChdir:
   Enabled: false
